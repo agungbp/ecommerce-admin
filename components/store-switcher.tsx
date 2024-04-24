@@ -5,7 +5,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { useStoreModal } from "@/hooks/use-store-modal"
 import { useParams, useRouter } from "next/navigation"
 import { useState } from "react"
-import router from "next/router"
 import { Button } from "./ui/button"
 import { Check, ChevronsUpDown, PlusCircle, Store as StoreIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -20,13 +19,13 @@ interface StoreSwitcherProps extends PopoverTriggerProps {
 export default function StoreSwitcher({ className, items = [] }: StoreSwitcherProps) {
     const storeModal = useStoreModal()
     const params = useParams()
-    const route = useRouter()
-    const formatedItems = items.map((item) => ({
+    const router = useRouter()
+    const formattedItems = items.map((item) => ({
         label: item.name,
         value: item.id
     }))
 
-    const currentStore = formatedItems.find((item) => item.value === params.storeId)
+    const currentStore = formattedItems.find((item) => item.value === params.storeId)
 
     const [open, setOpen] = useState(false)
 
@@ -43,7 +42,7 @@ export default function StoreSwitcher({ className, items = [] }: StoreSwitcherPr
                     size="sm"
                     role="combobox"
                     aria-expanded={open}
-                    aria-label="Select s store"
+                    aria-label="Select a store"
                     className={cn("w-[200px] justify-between", className)}
                 >
                     <StoreIcon className="mr-2 w-4 h-4" />
@@ -57,18 +56,17 @@ export default function StoreSwitcher({ className, items = [] }: StoreSwitcherPr
                         <CommandInput placeholder="Search store..." />
                         <CommandEmpty>No store found</CommandEmpty>
                         <CommandGroup heading="Stores">
-                            {formatedItems.map((item) => (
+                            {formattedItems.map((store) => (
                                 <CommandItem
-                                    key={item.value}
-                                    onSelect={() => onStoreSelect(item)}
-                                    // value={item.value}
+                                    key={store.value}
+                                    onSelect={() => onStoreSelect(store)}
                                     className="text-sm"
                                 >
                                     <StoreIcon className="mr-2 w-4 h-4" />
-                                    {item.label}
+                                    {store.label}
                                     <Check className={cn(
                                         "ml-auto h-4 w-4",
-                                        currentStore?.value === item.value ? "opacity-100" : "opacity-0"
+                                        currentStore?.value === store.value ? "opacity-100" : "opacity-0"
                                     )} />
                                 </CommandItem>
                             ))}
