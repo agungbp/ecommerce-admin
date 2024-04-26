@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 
         return NextResponse.json(store)
     } catch (error) {
-        console.log('[STORES POST]', error)
+        console.log('[STORES_POST]', error)
         return new NextResponse('Internal Server Error', { status: 500 })
     }
 }
