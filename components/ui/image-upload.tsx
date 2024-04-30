@@ -40,10 +40,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ disabled, onChange, onRemove,
                             </Button>
                         </div>
                         <Image
-                            fill
+                            // fill
                             className="object-cover"
                             src={url}
                             alt="Image"
+                            height={200}
+                            width={200}
                         />
                     </div>
                 ))}
