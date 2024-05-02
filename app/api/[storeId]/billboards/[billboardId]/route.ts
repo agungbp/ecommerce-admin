@@ -94,7 +94,7 @@ export async function DELETE(req: Request, { params }: { params: { storeId: stri
             return new NextResponse('Unauthorized', { status: 403 })
         }
 
-        const billboard = await prismadb.store.deleteMany({
+        const billboard = await prismadb.billboard.deleteMany({
             where: {
                 id: params.billboardId
             }
