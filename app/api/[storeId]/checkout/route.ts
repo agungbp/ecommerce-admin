@@ -15,23 +15,23 @@ export async function OPTIONS() {
 }
 
 export async function POST(req: Request, { params }: { params: { storeId: string } }) {
-    const { productsIds } = await req.json()
+    const { productIds } = await req.json()
 
-    if (!productsIds || productsIds.length === 0) {
+    if (!productIds || productIds.length === 0) {
         return new NextResponse('Product ids are required', { status: 400 })
     }
 
     const products = await prismadb.product.findMany({
         where: {
             id: {
-                in: productsIds
+                in: productIds
             }
         }
     })
 
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = []
 
-    products.forEach(product => {
+    products.forEach((product) => {
         line_items.push({
             quantity: 1,
             price_data: {
@@ -49,7 +49,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
             storeId: params.storeId,
             isPaid: false,
             orderItem: {
-                create: productsIds.map((productId: string) => ({
+                create: productIds.map((productId: string) => ({
                     product: {
                         connect: {
                             id: productId
